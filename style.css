@@ -63,4 +63,5 @@ button {
 .description {
     font-size: 15px;
     color: rgb(25, 161, 219);
+    white-space: pre-wrap;
 }
