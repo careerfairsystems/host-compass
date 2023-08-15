@@ -65,21 +65,35 @@ body {
     text-align: center;
     justify-content: center;
 	font-family: bahnscrift_semilight;
+	margin-left: 23rem;
+	margin-right: 23rem;
 }
 
 button {
 	margin-top: 5%;
 	font-size: 20px;
 	padding: 10px 20px;
-	background-color: #4f98c2;
+	background-color: rgb(246, 102, 40);
 	color: white;
 	border: none;
 	cursor: pointer;
 	font-family: bahnscrift_semilight;
 }
 
+.centered_question {
+	display: flex;
+	margin-left: 10rem;
+	margin-right: 10rem;
+}
+
+.separator {
+	margin-left: 2rem;
+	margin-right: 2rem;
+	font-size: 25px;
+}
+
 .role {
-	font-size: 30px;
+	font-size: 25px;
 	color: rgb(246, 102, 40);
     font-weight: bold;
     margin-top: 3%;

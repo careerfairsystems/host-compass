@@ -30,9 +30,9 @@ const questions = [
     },
     {
         question_SWE:
-            "Jag önskar att inte behöva vara service minded- Jag älskar att vara serviceminded",
+            "Jag önskar att inte behöva vara service minded - Jag älskar att vara serviceminded",
         question_ENG:
-            "I don't want to be service minded- I love being service minded",
+            "I don't want to be service minded - I love being service minded",
         idx: 2,
         answer: [
             { text: "1" },
@@ -284,14 +284,21 @@ function load_question() {
     if (questions[current_question].idx == 4) {
         interest_multiple_choice();
     } else {
-        const question = document.getElementById("ques");
+        const question_1 = document.getElementById("ques1");
+        const separator = document.getElementById("separator");
+        const question_2 = document.getElementById("ques2");
         const opt = document.getElementById("opt");
 
         if (language == "SWE") {
-            question.textContent = questions[current_question].question_SWE;
+            question_separated =
+                questions[current_question].question_SWE.split(" - ");
         } else {
-            question.textContent = questions[current_question].question_ENG;
+            question_separated =
+                questions[current_question].question_ENG.split(" - ");
         }
+        question_1.textContent = question_separated[0];
+        separator.textContent = "-";
+        question_2.textContent = question_separated[1];
         opt.innerHTML = "";
 
         for (let i = 0; i < questions[current_question].answer.length; i++) {
@@ -381,7 +388,9 @@ function load_score() {
 }
 
 function interest_multiple_choice() {
-    const question = document.getElementById("ques");
+    document.getElementById("ques2").remove();
+    document.getElementById("separator").remove();
+    const question = document.getElementById("ques1");
     const opt = document.getElementById("opt");
 
     if (language == "SWE") {
@@ -429,7 +438,7 @@ function next_question() {
         load_question();
     } else {
         document.getElementById("opt").remove();
-        document.getElementById("ques").remove();
+        document.getElementById("ques1").remove();
         document.getElementById("btn").remove();
         load_score();
     }
