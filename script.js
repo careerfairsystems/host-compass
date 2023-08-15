@@ -1,5 +1,5 @@
-// Questions that will be asked
-const Questions = [
+// questions that will be asked
+const questions = [
     {
         question:
             "Jag gillar att arbeta i mindre grupper - Jag gillar att arbeta i stora grupper",
@@ -64,7 +64,7 @@ const Questions = [
 
 // Host role followed by index of the question followed by the points for this specific role from choice 1-5
 // Also contains a description for the role what it means to do in this role
-const Scoring = [
+const role_scoring = [
     {
         Banquet: {
             0: [1, 1, 2, 3, 4],
@@ -194,7 +194,7 @@ const Scoring = [
     },
 ];
 
-const PositionScore = [
+const current_role_score = [
     {
         Banquet: 0,
         Company: 0,
@@ -213,102 +213,101 @@ const PositionScore = [
     },
 ];
 
-let currQuestion = 0;
+let current_question = 0;
 let score = 0;
 
-function loadQues() {
+function load_question() {
     const question = document.getElementById("ques");
     const opt = document.getElementById("opt");
 
-    question.textContent = Questions[currQuestion].question;
+    question.textContent = questions[current_question].question;
     opt.innerHTML = "";
 
-    for (let i = 0; i < Questions[currQuestion].answer.length; i++) {
-        const choicesdiv = document.createElement("div");
+    for (let i = 0; i < questions[current_question].answer.length; i++) {
+        const choice_div = document.createElement("div");
         const choice = document.createElement("input");
-        const choiceLabel = document.createElement("label");
+        const choice_label = document.createElement("label");
 
         choice.type = "radio";
         choice.name = "answer";
         choice.value = i;
 
-        choiceLabel.textContent = Questions[currQuestion].answer[i].text;
+        choice_label.textContent = questions[current_question].answer[i].text;
 
-        choicesdiv.appendChild(choice);
-        choicesdiv.appendChild(choiceLabel);
-        opt.appendChild(choicesdiv);
+        choice_div.appendChild(choice);
+        choice_div.appendChild(choice_label);
+        opt.appendChild(choice_div);
     }
 }
 
-loadQues();
+load_question();
 
-function loadScore() {
-    const topThreePosts = document.getElementById("score");
-    const obj = PositionScore[0]; // Assuming there is only one object in the list
-    const topThree = Object.keys(PositionScore[0])
-        .map((key, index) => [key, Object.values(PositionScore[0])[index]])
+function load_score() {
+    const top_three_posts = document.getElementById("score");
+    const top_three = Object.keys(current_role_score[0])
+        .map((key, index) => [key, Object.values(current_role_score[0])[index]])
         .sort((a, b) => b[1] - a[1])
         .slice(0, 3)
         .map((pair) => pair[0]);
 
-    const forbiddenName = {
+    const forbidden_name = {
         Info_Desk: "Info Desk",
         Student_Sessions: "Student Sessions",
     };
 
-    const threeKeys = Object.values(topThree);
+    const three_role_keys = Object.values(top_three);
 
-    for (let i = 0; i < topThree.length; i++) {
-        const key = topThree[i];
-        if (forbiddenName.hasOwnProperty(key)) {
-            topThree[i] = forbiddenName[key];
+    for (let i = 0; i < top_three.length; i++) {
+        const key = top_three[i];
+        if (forbidden_name.hasOwnProperty(key)) {
+            top_three[i] = forbidden_name[key];
         }
     }
 
-    console.log(topThree, threeKeys);
+    console.log(top_three, three_role_keys);
 
-    let threeRolesWithdescription = [];
-    for (let i = 0; i < threeKeys.length; i++) {
-        const key = threeKeys[i];
+    let three_roles_with_description = [];
+    for (let i = 0; i < three_role_keys.length; i++) {
+        const key = three_role_keys[i];
         console.log(key);
-        if (key in Scoring[0]) {
-            threeRolesWithdescription[i] = [
-                topThree[i],
-                Scoring[0][key]["Description"],
+        if (key in role_scoring[0]) {
+            three_roles_with_description[i] = [
+                top_three[i],
+                role_scoring[0][key]["Description"],
             ];
         }
     }
 
-    topThreePosts.textContent = `Värdkompassen tror att du kommer passa bäst med rolen som:\n\n
-                                ${threeRolesWithdescription[0][0]}\n${threeRolesWithdescription[0][1]}\n\n
-                                ${threeRolesWithdescription[1][0]}\n${threeRolesWithdescription[1][1]}\n\n
-                                ${threeRolesWithdescription[2][0]}\n${threeRolesWithdescription[2][1]}`;
+    top_three_posts.textContent = `Värdkompassen tror att du kommer passa bäst med rolen som:\n\n
+                                ${three_roles_with_description[0][0]}\n${three_roles_with_description[0][1]}\n\n
+                                ${three_roles_with_description[1][0]}\n${three_roles_with_description[1][1]}\n\n
+                                ${three_roles_with_description[2][0]}\n${three_roles_with_description[2][1]}`;
 }
 
-function nextQuestion() {
-    if (currQuestion < Questions.length - 1) {
-        currQuestion++;
-        loadQues();
+function next_question() {
+    if (current_question < questions.length - 1) {
+        current_question++;
+        load_question();
     } else {
         document.getElementById("opt").remove();
         document.getElementById("ques").remove();
         document.getElementById("btn").remove();
-        loadScore();
+        load_score();
     }
 }
 
-function checkAns() {
+function check_answer() {
     const selectedAns = parseInt(
         document.querySelector('input[name="answer"]:checked').value
     );
 
-    const idx = currQuestion;
-    for (const key in Scoring[0]) {
-        const roleScoring = Scoring[0][key][idx][selectedAns];
-        PositionScore[0][key] += roleScoring;
+    const idx = current_question;
+    for (const key in role_scoring[0]) {
+        const role_score = role_scoring[0][key][idx][selectedAns];
+        current_role_score[0][key] += role_score;
     }
 
-    console.log(PositionScore);
+    console.log(current_role_score);
 
-    nextQuestion();
+    next_question();
 }
