@@ -259,7 +259,6 @@ prepare();
 
 function prepare() {
     document.getElementById("btn").style.visibility = "hidden";
-    document.getElementById("header").textContent = "The Host Compass";
 }
 
 function language_selector_english() {
@@ -276,8 +275,8 @@ function language_selector_swedish() {
     document.getElementById("english").remove();
     document.getElementById("choose_language").remove();
     document.getElementById("btn").style.visibility = "visible";
-    document.getElementById("header").textContent = "Värdkompassen";
     language = "SWE";
+    document.getElementById("compass_img").src = "logga_med_bakgrund.png";
     load_question();
 }
 
