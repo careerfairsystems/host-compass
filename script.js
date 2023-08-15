@@ -282,45 +282,39 @@ function language_selector_swedish() {
 }
 
 function load_question() {
-    const question = document.getElementById("ques");
-    const opt = document.getElementById("opt");
-
-    if (language == "SWE") {
-        question.textContent = questions[current_question].question_SWE;
+    if (questions[current_question].idx == 4) {
+        interest_multiple_choice();
     } else {
-        question.textContent = questions[current_question].question_ENG;
-    }
-    opt.innerHTML = "";
+        const question = document.getElementById("ques");
+        const opt = document.getElementById("opt");
 
-    const eng_question_4 = [
-        { text: "Foto" },
-        { text: "Filming" },
-        { text: "Working with electricity and technology" },
-        { text: "Decoration" },
-        { text: "Test Apps" },
-        { text: "Work physically" },
-        { text: "None of the above" },
-    ];
-
-    for (let i = 0; i < questions[current_question].answer.length; i++) {
-        const choice_div = document.createElement("div");
-        const choice = document.createElement("input");
-        const choice_label = document.createElement("label");
-
-        choice.type = "radio";
-        choice.name = "answer";
-        choice.value = i;
-
-        if (language == "ENG" && questions[current_question].idx == 4) {
-            choice_label.textContent = eng_question_4[i].text;
+        if (language == "SWE") {
+            question.textContent = questions[current_question].question_SWE;
         } else {
-            choice_label.textContent =
-                questions[current_question].answer[i].text;
+            question.textContent = questions[current_question].question_ENG;
         }
+        opt.innerHTML = "";
 
-        choice_div.appendChild(choice);
-        choice_div.appendChild(choice_label);
-        opt.appendChild(choice_div);
+        for (let i = 0; i < questions[current_question].answer.length; i++) {
+            const choice_div = document.createElement("div");
+            const choice = document.createElement("input");
+            const choice_label = document.createElement("label");
+
+            choice.type = "radio";
+            choice.name = "answer";
+            choice.value = i;
+
+            if (language == "ENG" && questions[current_question].idx == 4) {
+                choice_label.textContent = eng_question_4[i].text;
+            } else {
+                choice_label.textContent =
+                    questions[current_question].answer[i].text;
+            }
+
+            choice_div.appendChild(choice);
+            choice_div.appendChild(choice_label);
+            opt.appendChild(choice_div);
+        }
     }
 }
 
@@ -387,6 +381,49 @@ function load_score() {
     description_3.textContent = `${three_roles_with_description[2][1]}\n\n`;
 }
 
+function interest_multiple_choice() {
+    const question = document.getElementById("ques");
+    const opt = document.getElementById("opt");
+
+    if (language == "SWE") {
+        question.textContent = questions[current_question].question_SWE;
+    } else {
+        question.textContent = questions[current_question].question_ENG;
+    }
+    opt.innerHTML = "";
+
+    const eng_question_4 = [
+        { text: "Photo" },
+        { text: "Filming" },
+        { text: "Working with electricity and technology" },
+        { text: "Decoration" },
+        { text: "Test Apps" },
+        { text: "Work physically" },
+        { text: "None of the above" },
+    ];
+
+    for (let i = 0; i < questions[current_question].answer.length; i++) {
+        const choice_div = document.createElement("div");
+        const choice = document.createElement("input");
+        const choice_label = document.createElement("label");
+
+        choice.type = "checkbox";
+        choice.name = "answer";
+        choice.value = i;
+
+        if (language == "ENG" && questions[current_question].idx == 4) {
+            choice_label.textContent = eng_question_4[i].text;
+        } else {
+            choice_label.textContent =
+                questions[current_question].answer[i].text;
+        }
+
+        choice_div.appendChild(choice);
+        choice_div.appendChild(choice_label);
+        opt.appendChild(choice_div);
+    }
+}
+
 function next_question() {
     if (current_question < questions.length - 1) {
         current_question++;
@@ -400,17 +437,40 @@ function next_question() {
 }
 
 function check_answer() {
-    const selectedAns = parseInt(
-        document.querySelector('input[name="answer"]:checked').value
-    );
+    if (questions[current_question].idx !== 4) {
+        const selectedAns = parseInt(
+            document.querySelector('input[name="answer"]:checked').value
+        );
 
-    const idx = current_question;
-    for (const key in role_scoring[0]) {
-        const role_score = role_scoring[0][key][idx][selectedAns];
-        current_role_score[0][key] += role_score;
+        const idx = current_question;
+        for (const key in role_scoring[0]) {
+            const role_score = role_scoring[0][key][idx][selectedAns];
+            current_role_score[0][key] += role_score;
+        }
+
+        console.log(current_role_score);
+
+        next_question();
+    } else {
+        const selectedAns = document.querySelectorAll(
+            'input[name="answer"]:checked'
+        );
+
+        let answers = [];
+        for (let i = 0; i < selectedAns.length; i++) {
+            answers[i] = parseInt(selectedAns[i].value);
+        }
+
+        const idx = current_question;
+        for (const key in role_scoring[0]) {
+            for (let j = 0; j < answers.length; j++) {
+                const role_score = role_scoring[0][key][idx][answers[j]];
+                current_role_score[0][key] += role_score;
+            }
+        }
+
+        console.log(current_role_score);
+
+        next_question();
     }
-
-    console.log(current_role_score);
-
-    next_question();
 }

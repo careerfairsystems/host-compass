@@ -3,6 +3,8 @@ body {
     border-color: rgb(246, 102, 40);
     border-width: 3;
     font-family: sans-serif;
+	margin-left: 10rem;
+	margin-right: 10rem;
 }
 
 .panel {
@@ -61,7 +63,9 @@ button {
 }
 
 .description {
-    font-size: 15px;
+    font-size: 17px;
     color: rgb(25, 161, 219);
     white-space: pre-wrap;
+	margin-left: 10rem;
+	margin-right: 10rem;
 }
