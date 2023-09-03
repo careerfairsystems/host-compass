@@ -334,7 +334,7 @@ function load_score() {
     const forbidden_name = {
         Info_Desk: "Info Desk",
         Student_Sessions: "Student Sessions",
-        PSN: "Network and Connection",
+        PSN: "Power Supply & Network",
     };
 
     const three_role_keys = Object.values(top_three);
