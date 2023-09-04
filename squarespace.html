@@ -191,9 +191,9 @@ button {
 const questions = [
     {
         question_SWE:
-            "Jag gillar att arbeta i mindre grupper - Jag gillar att arbeta i stora grupper",
+            "Jag gillar att arbeta i mindre grupper (1) - Jag gillar att arbeta i stora grupper (5)",
         question_ENG:
-            "I like to work in small groups - I like to work in large groups",
+            "I like to work in small groups (1) - I like to work in large groups (5)",
         idx: 0,
         answer: [
             { text: "1" },
@@ -205,9 +205,9 @@ const questions = [
     },
     {
         question_SWE:
-            "Jag är inte intresserad av att ha kontakt med företag - Jag är intresserad av att ha kontakt med företag",
+            "Jag är inte intresserad av att ha kontakt med företag (1) - Jag är intresserad av att ha kontakt med företag (5)",
         question_ENG:
-            "I am not interested in having contact with companies - I am interested in having contact with companies",
+            "I am not interested in having contact with companies (1) - I am interested in having contact with companies (5)",
         idx: 1,
         answer: [
             { text: "1" },
@@ -219,9 +219,9 @@ const questions = [
     },
     {
         question_SWE:
-            "Jag önskar att inte behöva vara service minded - Jag älskar att vara serviceminded",
+            "Jag önskar att inte behöva vara service minded (1) - Jag älskar att vara serviceminded (5)",
         question_ENG:
-            "I don't want to be service minded - I love being service minded",
+            "I don't want to be service minded (1) - I love being service minded (5)",
         idx: 2,
         answer: [
             { text: "1" },
@@ -233,9 +233,9 @@ const questions = [
     },
     {
         question_SWE:
-            "Jag tycker det är bekvämt när någon säger till mig vad jag ska göra - Jag gillar att ta iniativ",
+            "Jag tycker det är bekvämt när någon säger till mig vad jag ska göra (1) - Jag gillar att ta iniativ (5)",
         question_ENG:
-            "I find it comfortable when someone tells me what to do - I like to take initiative",
+            "I find it comfortable when someone tells me what to do (1) - I like to take initiative (5)",
         idx: 3,
         answer: [
             { text: "1" },
@@ -444,12 +444,6 @@ let score = 0;
 let language = "";
 let language_questions = [];
 
-prepare();
-
-function prepare() {
-    document.getElementById("btn").style.visibility = "hidden";
-}
-
 function language_selector_english() {
     document.getElementById("swedish").remove();
     document.getElementById("english").remove();
@@ -465,11 +459,11 @@ function language_selector_swedish() {
     document.getElementById("choose_language").remove();
     document.getElementById("btn").style.visibility = "visible";
     language = "SWE";
-    document.getElementById("compass_img").src = "logga_med_bakgrund.png";
     load_question();
 }
 
 function load_question() {
+    document.getElementById("btn").style = "display: inline-block"
     if (questions[current_question].idx == 4) {
         interest_multiple_choice();
     } else {
@@ -671,7 +665,6 @@ function check_answer() {
         next_question();
     }
 }
-
    </script>
   
 </head>
